@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="start_text_left_margin">80dp</dimen>
+    <dimen name="start_text_right_margin">80dp</dimen>
+    <dimen name="start_text_top_margin">16dp</dimen>
+    <dimen name="font_size">16sp</dimen>
+</resources>
