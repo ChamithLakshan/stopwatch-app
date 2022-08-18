@@ -49,6 +49,9 @@ public class GetStartedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 goToStopWatch();
+
+                //Animating the movement between activities
+                overridePendingTransition(R.anim.slide_in,R.anim.slide_out_left);
             }
         });
     }

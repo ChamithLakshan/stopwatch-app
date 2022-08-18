@@ -118,4 +118,11 @@ public class MainActivity extends AppCompatActivity {
             mHandler.postDelayed(this,0);
         }
     };
+
+    //Animating the back button function
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out);
+    }
 }
