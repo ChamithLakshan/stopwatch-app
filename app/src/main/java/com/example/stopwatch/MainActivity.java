@@ -16,15 +16,15 @@ import java.util.Locale;
  *Provides the actions start, pause and restart of the stopwatch.
  */
 public class MainActivity extends AppCompatActivity {
-    private TextView mTimer;
-    private Button mStart;
-    private Button mPause;
-    private Button mReset;
+    private TextView tvTimer;
+    private Button btnStart;
+    private Button btnPause;
+    private Button btnReset;
     private Long mMiliSecondTime;
     private Long mStartTime;
     private Long mTimeBuffer;
     private Long mUpdateTime;
-    private Handler mHandler;
+    private Handler handler;
     private int mHours;
     private int mSeconds;
     private int mMinutes;
@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTimer = (TextView)findViewById(R.id.timerText);
-        mStart = (Button) findViewById(R.id.start_button);
-        mPause = (Button) findViewById(R.id.pause_button);
-        mReset = (Button) findViewById(R.id.reset_button);
+        tvTimer = (TextView)findViewById(R.id.timerText);
+        btnStart = (Button) findViewById(R.id.start_button);
+        btnPause = (Button) findViewById(R.id.pause_button);
+        btnReset = (Button) findViewById(R.id.reset_button);
 
         mMiliSecondTime = 0L;
         mStartTime = 0L;
@@ -49,35 +49,35 @@ public class MainActivity extends AppCompatActivity {
         mHours =0;
         mMiliSeconds =0;
 
-        mHandler = new Handler();
+        handler = new Handler();
 
         //Start button
-        mStart.setOnClickListener(new View.OnClickListener() {
+        btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStartTime = SystemClock.uptimeMillis();
-                mHandler.postDelayed(mRunnable, 0);
+                mStartTime = SystemClock.uptimeMillis(); // the time of the start button clicked.
+                handler.postDelayed(mRunnable, 0);
 
-                mReset.setEnabled(false);
-                mStart.setEnabled(false);
+                btnReset.setEnabled(false); //disables the reset button
+                btnStart.setEnabled(false); //disables the start button
 
             }
         });
 
         //Pause button
-        mPause.setOnClickListener(new View.OnClickListener() {
+        btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                mTimeBuffer += mMiliSecondTime;
-                mHandler.removeCallbacks(mRunnable);
-                mReset.setEnabled(true);
-                mStart.setEnabled(true);
+                mTimeBuffer += mMiliSecondTime; //saves the time in miliseconds
+                handler.removeCallbacks(mRunnable); //pause the timer.
+                btnReset.setEnabled(true); //enables the reset button
+                btnStart.setEnabled(true); //enables the start button
             }
         });
 
         //Reset button
-        mReset.setOnClickListener(new View.OnClickListener() {
+        btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -91,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 mMiliSeconds =0;
 
                 String mResetValue = "00:00:00:00";
-
-                mTimer.setText(mResetValue);
+                tvTimer.setText(mResetValue); // reset the timer
             }
         });
     }
@@ -104,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
 
-            mMiliSecondTime = SystemClock.uptimeMillis() - mStartTime;
-            mUpdateTime = mTimeBuffer + mMiliSecondTime;
+            mMiliSecondTime = SystemClock.uptimeMillis() - mStartTime; //time in miliseconds after clicking the start button
+            mUpdateTime = mTimeBuffer + mMiliSecondTime; //if starts after a pause time buffer added
             mSeconds = (int)(mUpdateTime/1000);
             mMinutes = mSeconds/60;
             mHours = mMinutes/60;
@@ -113,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
             mMiliSeconds = (int)(mUpdateTime%1000);
             String time = String.format(Locale.getDefault(), "%02d:%02d:%02d:%03d", mHours, mMinutes, mSeconds, mMiliSeconds);
 
-            mTimer.setText(time);
+            tvTimer.setText(time);
 
-            mHandler.postDelayed(this,0);
+            handler.postDelayed(this,0);//setting the timer after every milisecond
         }
     };
 

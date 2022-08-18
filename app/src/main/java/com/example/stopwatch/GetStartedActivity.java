@@ -15,12 +15,14 @@ import java.util.Objects;
 
 /**
  * Starts the app with get started button
+ * Clicking the Get started button main activity is loaded.
  */
 public class GetStartedActivity extends AppCompatActivity {
 
 
     private Button mBtn;
-    private Animation mFadeAndTranslate,mOnlyFade;
+    private Animation mFadeAndTranslate;
+    private Animation mOnlyFade;
     private ImageView mIcon;
     private TextView mStartText;
 
@@ -37,9 +39,11 @@ public class GetStartedActivity extends AppCompatActivity {
         mIcon = (ImageView) findViewById(R.id.watchIcon);
         mStartText =(TextView) findViewById(R.id.startingText);
 
-        //Animations
+        //Referring to animations
         mFadeAndTranslate = AnimationUtils.loadAnimation(this,R.anim.fade);
         mOnlyFade =AnimationUtils.loadAnimation(this,R.anim.onlyfade);
+
+        //setting animations on objects
         mBtn.startAnimation(mFadeAndTranslate);
         mIcon.startAnimation(mOnlyFade);
         mStartText.startAnimation(mOnlyFade);
@@ -55,7 +59,10 @@ public class GetStartedActivity extends AppCompatActivity {
             }
         });
     }
-    //method for calling MainActivity
+
+    /**
+     * Creates intent to move between activities
+     */
     public void goToStopWatch(){
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
